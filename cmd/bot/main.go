@@ -15,11 +15,11 @@ const (
 )
 
 func main() {
-	//apiKey := "226344ed8e181b034282e7ac12ca4170497b413abe9c3f8bccd5d7c7c6a535b0"
-	//botToken := "6200298459:AAFY4TZdDWshAgNwJCazc4gnclg7PwAgGqo"
+	apiKey := "226344ed8e181b034282e7ac12ca4170497b413abe9c3f8bccd5d7c7c6a535b0"
+	botToken := "6200298459:AAFY4TZdDWshAgNwJCazc4gnclg7PwAgGqo"
 
-	apiKey := os.Getenv("apiKey")
-	botToken := os.Getenv("botToken")
+	//apiKey := os.Getenv("apiKey")
+	//botToken := os.Getenv("botToken")
 	dbConnStr := os.Getenv("DB_CONNECTION_STRING")
 
 	dbClient, err := db.NewDBClient(dbConnStr)
