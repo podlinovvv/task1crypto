@@ -1,0 +1,32 @@
+# Стадия сборки: используйте официальный образ Golang для сборки приложения
+FROM golang:1.20.2 AS builder
+
+# Установите рабочую директорию
+WORKDIR /app
+
+# Копируйте go.mod и go.sum файлы
+COPY go.mod go.sum ./
+
+# Загрузите зависимости
+RUN go mod download
+
+# Копируйте исходный код приложения
+COPY . .
+
+# Соберите приложение
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main ./cmd/bot
+
+
+# Стадия запуска: используйте легкий образ Alpine
+FROM alpine:3.17
+
+# Установите рабочую директорию
+WORKDIR /app
+
+# Копируйте собранное приложение из стадии сборки
+COPY --from=builder /app/main .
+
+RUN apk add --no-cache ca-certificates
+
+# Запустите приложение
+CMD ["/app/main"]

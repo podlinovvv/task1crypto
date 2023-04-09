@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile_app
+    container_name: my_app
+    depends_on:
+      - postgres
+    environment:
+      - DB_CONNECTION_STRING=postgres://drem:pass@postgres:5432/courses?sslmode=disable
+      - apiKey =226344ed8e181b034282e7ac12ca4170497b413abe9c3f8bccd5d7c7c6a535b0
+      - botToken =6200298459:AAFY4TZdDWshAgNwJCazc4gnclg7PwAgGqo
+  postgres:
+    build: ..
+    image: postgres:15.2-alpine
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./dbdata:/var/lib/postgresql/dbdata
+    environment:
+      - POSTGRES_USER=drem
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=courses
+
+volumes:
+  postgres_data:
